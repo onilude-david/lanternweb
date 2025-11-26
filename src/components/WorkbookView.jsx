@@ -9,6 +9,7 @@ import { cn } from '../lib/utils';
 export default function WorkbookView() {
     const { gradeId, subjectId, chapterId } = useParams();
     const navigate = useNavigate();
+    const { updateLastVisited } = useApp();
     const [pdfPage, setPdfPage] = useState(1);
     const [zoom, setZoom] = useState(100);
     const [answers, setAnswers] = useState({});
@@ -24,6 +25,19 @@ export default function WorkbookView() {
             setPdfPage(quiz.pdfPage);
         }
     }, [quiz]);
+
+    useEffect(() => {
+        if (chapter && quiz) {
+            updateLastVisited(
+                gradeId,
+                subjectId,
+                chapter.id,
+                chapter.title,
+                `Workbook: ${quiz.title}`,
+                `/dashboard/workbook/${gradeId}/${subjectId}/${chapterId}`
+            );
+        }
+    }, [chapter, quiz, gradeId, subjectId, chapterId, updateLastVisited]);
 
     if (!grade || !subject || !chapter || !quiz) {
         return <div className="p-8 text-center">Workbook exercise not found.</div>;
@@ -81,8 +95,8 @@ export default function WorkbookView() {
                 </div>
             </div>
 
-            <div className="flex-1 flex overflow-hidden">
-                <div className="flex-1 bg-gray-200 relative border-r border-gray-300">
+            <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+                <div className="flex-1 bg-gray-200 relative border-r border-gray-300 h-1/2 md:h-auto">
                     <iframe
                         src={`${subject.pdfUrl}#page=${pdfPage}&zoom=${zoom}`}
                         className="w-full h-full border-none"
@@ -90,7 +104,7 @@ export default function WorkbookView() {
                     />
                 </div>
 
-                <div className="w-80 md:w-96 bg-white flex flex-col border-l border-gray-200 shadow-xl z-10">
+                <div className="w-full md:w-96 bg-white flex flex-col border-l border-gray-200 shadow-xl z-10 h-1/2 md:h-auto">
                     <div className="p-4 border-b border-gray-100 bg-gray-50">
                         <h2 className="font-bold text-gray-800 flex items-center gap-2">
                             <span className="w-6 h-6 rounded-full bg-lantern-dark text-white flex items-center justify-center text-xs">?</span>

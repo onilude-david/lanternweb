@@ -17,7 +17,7 @@ export default function Login() {
 
     useEffect(() => {
         if (user) {
-            navigate('/');
+            navigate('/dashboard');
         }
     }, [user, navigate]);
 
@@ -28,7 +28,7 @@ export default function Login() {
 
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            navigate('/');
+            // Navigation is handled by the useEffect hook listening to 'user' state
         } catch (err) {
             console.error(err);
             setError('Failed to login. Please check your credentials.');
@@ -42,7 +42,7 @@ export default function Login() {
         setError('');
         try {
             await signInWithPopup(auth, googleProvider);
-            navigate('/');
+            // Navigation is handled by the useEffect hook listening to 'user' state
         } catch (err) {
             console.error(err);
             setError('Failed to login with Google.');

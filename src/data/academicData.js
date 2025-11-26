@@ -7,7 +7,7 @@ export const academicData = {
                 id: 'p1-quant',
                 title: 'Steps to Quantitative Reasoning 1',
                 cover: 'https://placehold.co/300x400/FFD700/000000?text=Quant+1',
-                pdfUrl: '/books/sample.pdf',
+                pdfUrl: '/books/primary1-quantitative.pdf',
                 chapters: [
                     { id: 1, title: 'Shape Identification', description: 'Identify basic shapes.', quizzes: [{ id: 'p1-q1-1', title: 'Basic Shapes' }] },
                     { id: 2, title: 'Counting Objects', description: 'Count objects up to 20.', quizzes: [{ id: 'p1-q1-2', title: 'Counting' }] }
@@ -17,7 +17,7 @@ export const academicData = {
                 id: 'p1-verbal',
                 title: 'Steps to Verbal Reasoning 1',
                 cover: 'https://placehold.co/300x400/FF6347/FFFFFF?text=Verbal+1',
-                pdfUrl: '/books/sample.pdf',
+                pdfUrl: '/books/primary1-verbal.pdf',
                 chapters: [
                     { id: 1, title: 'Letter Recognition', description: 'Identify letters A-Z.', quizzes: [{ id: 'p1-v1-1', title: 'Alphabet' }] }
                 ]
@@ -32,7 +32,7 @@ export const academicData = {
                 id: 'p2-quant',
                 title: 'Steps to Quantitative Reasoning 2',
                 cover: 'https://placehold.co/300x400/FFD700/000000?text=Quant+2',
-                pdfUrl: '/books/sample.pdf',
+                pdfUrl: '/books/primary2-quantitative.pdf',
                 chapters: [
                     { id: 1, title: 'Addition & Subtraction', description: 'Simple arithmetic problems.', quizzes: [{ id: 'p2-q1-1', title: 'Basic Math' }] },
                     { id: 2, title: 'Number Patterns', description: 'Complete the number sequences.', quizzes: [{ id: 'p2-q1-2', title: 'Sequences' }] }
@@ -42,7 +42,7 @@ export const academicData = {
                 id: 'p2-verbal',
                 title: 'Steps to Verbal Reasoning 2',
                 cover: 'https://placehold.co/300x400/FF6347/FFFFFF?text=Verbal+2',
-                pdfUrl: '/books/sample.pdf',
+                pdfUrl: '/books/primary2-verbal.pdf',
                 chapters: [
                     { id: 1, title: 'Word Families', description: 'Grouping similar words.', quizzes: [{ id: 'p2-v1-1', title: 'Word Groups' }] }
                 ]
@@ -57,7 +57,7 @@ export const academicData = {
                 id: 'p3-quant',
                 title: 'Steps to Quantitative Reasoning 3',
                 cover: 'https://placehold.co/300x400/FFD700/000000?text=Quant+3',
-                pdfUrl: '/books/sample.pdf',
+                pdfUrl: '/books/primary3-quantitative.pdf',
                 chapters: [
                     { id: 1, title: 'Multiplication', description: 'Introduction to multiplication tables.', quizzes: [{ id: 'p3-q1-1', title: 'Times Tables' }] },
                     { id: 2, title: 'Fractions', description: 'Understanding halves and quarters.', quizzes: [{ id: 'p3-q1-2', title: 'Basic Fractions' }] }
@@ -67,7 +67,7 @@ export const academicData = {
                 id: 'p3-verbal',
                 title: 'Steps to Verbal Reasoning 3',
                 cover: 'https://placehold.co/300x400/FF6347/FFFFFF?text=Verbal+3',
-                pdfUrl: '/books/sample.pdf',
+                pdfUrl: '/books/primary3-verbal.pdf',
                 chapters: [
                     { id: 1, title: 'Antonyms', description: 'Words with opposite meanings.', quizzes: [{ id: 'p3-v1-1', title: 'Opposites' }] }
                 ]
@@ -121,7 +121,7 @@ export const academicData = {
                 id: 'p5-quant',
                 title: 'Steps to Quantitative Reasoning 5',
                 cover: 'https://placehold.co/300x400/FFD700/000000?text=Quant+5',
-                pdfUrl: '/books/sample.pdf',
+                pdfUrl: '/books/primary5-quantitative.pdf',
                 chapters: [
                     { id: 1, title: 'Algebraic Thinking', description: 'Solving for X in simple equations.', quizzes: [{ id: 'p5-q1-1', title: 'Simple Algebra' }] },
                     { id: 2, title: 'Geometry', description: 'Properties of triangles and rectangles.', quizzes: [{ id: 'p5-q1-2', title: 'Shapes & Angles' }] }
@@ -131,7 +131,7 @@ export const academicData = {
                 id: 'p5-verbal',
                 title: 'Steps to Verbal Reasoning 5',
                 cover: 'https://placehold.co/300x400/FF6347/FFFFFF?text=Verbal+5',
-                pdfUrl: '/books/sample.pdf',
+                pdfUrl: '/books/primary5-verbal.pdf',
                 chapters: [
                     { id: 1, title: 'Analogies', description: 'Completing word relationships.', quizzes: [{ id: 'p5-v1-1', title: 'Word Analogies' }] }
                 ]
@@ -146,7 +146,7 @@ export const academicData = {
                 id: 'p6-quant',
                 title: 'Steps to Quantitative Reasoning 6',
                 cover: 'https://placehold.co/300x400/FFD700/000000?text=Quant+6',
-                pdfUrl: '/books/sample.pdf',
+                pdfUrl: '/books/primary6-quantitative.pdf',
                 chapters: [
                     { id: 1, title: 'Advanced Logic', description: 'Complex logical sequences.', quizzes: [{ id: 'p6-q1-1', title: 'Logic Puzzles' }] },
                     { id: 2, title: 'Data Interpretation', description: 'Reading graphs and charts.', quizzes: [{ id: 'p6-q1-2', title: 'Graphs' }] }
@@ -156,7 +156,7 @@ export const academicData = {
                 id: 'p6-verbal',
                 title: 'Steps to Verbal Reasoning 6',
                 cover: 'https://placehold.co/300x400/FF6347/FFFFFF?text=Verbal+6',
-                pdfUrl: '/books/sample.pdf',
+                pdfUrl: '/books/primary6-verbal.pdf',
                 chapters: [
                     { id: 1, title: 'Critical Reading', description: 'Analyzing complex texts.', quizzes: [{ id: 'p6-v1-1', title: 'Comprehension' }] }
                 ]
@@ -169,7 +169,7 @@ export const academicData = {
             chapter: 'Shape Patterns',
             progress: 60,
             cover: 'https://placehold.co/300x400/FFD700/000000?text=Quant+4',
-            link: '/chapter/primary4/quantitative/1'
+            link: '/dashboard/chapter/primary4/quantitative/1'
         },
         dailyChallenge: {
             title: 'Math Whiz',

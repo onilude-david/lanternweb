@@ -1,34 +1,11 @@
-import React, { useState } from 'react';
-import { quizData } from '../data/quizData';
-import { X, Check, AlertCircle, ArrowRight, RefreshCw } from 'lucide-react';
-import { cn } from '../lib/utils';
+import { useApp } from '../context/AppContext';
 
 export default function Quiz({ quizId, onClose, onComplete }) {
+    const { awardPoints } = useApp();
     const quiz = quizData[quizId];
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [selectedOption, setSelectedOption] = useState(null);
-    const [isAnswered, setIsAnswered] = useState(false);
-    const [score, setScore] = useState(0);
-    const [showResults, setShowResults] = useState(false);
+    // ... existing state ...
 
-    if (!quiz) return null;
-
-    const currentQuestion = quiz.questions[currentQuestionIndex];
-    const totalQuestions = quiz.questions.length;
-
-    const handleOptionSelect = (index) => {
-        if (isAnswered) return;
-        setSelectedOption(index);
-    };
-
-    const handleSubmit = () => {
-        if (selectedOption === null) return;
-
-        setIsAnswered(true);
-        if (selectedOption === currentQuestion.correctIndex) {
-            setScore(prev => prev + 1);
-        }
-    };
+    // ... existing handlers ...
 
     const handleNext = () => {
         if (currentQuestionIndex < totalQuestions - 1) {
@@ -37,7 +14,12 @@ export default function Quiz({ quizId, onClose, onComplete }) {
             setIsAnswered(false);
         } else {
             setShowResults(true);
-            if (onComplete) onComplete(score + (selectedOption === currentQuestion.correctIndex ? 1 : 0));
+            const finalScore = score + (selectedOption === currentQuestion.correctIndex ? 1 : 0);
+
+            // Award points: 10 points per correct answer
+            awardPoints(finalScore * 10);
+
+            if (onComplete) onComplete(finalScore);
         }
     };
 

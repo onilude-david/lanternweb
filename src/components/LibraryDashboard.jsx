@@ -62,7 +62,7 @@ export default function LibraryDashboard() {
                     <div
                         key={book.id}
                         className="group cursor-pointer"
-                        onClick={() => navigate(`/book/${book.id}`)}
+                        onClick={() => navigate(`/dashboard/book/${book.id}`)}
                     >
                         <div className="relative aspect-[2/3] rounded-xl overflow-hidden shadow-sm group-hover:shadow-md transition-all duration-300 mb-3">
                             <img src={book.cover} alt={book.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />

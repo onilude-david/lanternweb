@@ -11,6 +11,11 @@ import TextbookReader from './components/TextbookReader';
 import WorkbookView from './components/WorkbookView';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
+import TeacherDashboard from './components/TeacherDashboard';
+import SchoolDashboard from './components/SchoolDashboard';
+import Profile from './components/Profile';
+
+import Overview from './components/Overview';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useApp();
@@ -28,19 +33,25 @@ function ProtectedRoute({ children }) {
 }
 
 function AppContent() {
-  const { mode } = useApp();
+  // const { mode } = useApp(); // Removed as per instruction
 
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
 
-      <Route path="/" element={
+      <Route path="/dashboard" element={
         <ProtectedRoute>
           <MainLayout />
         </ProtectedRoute>
       }>
-        <Route index element={mode === 'academic' ? <ClassroomDashboard /> : <LibraryDashboard />} />
+        <Route index element={<Overview />} />
+        <Route path="classroom" element={<ClassroomDashboard />} />
+        <Route path="library" element={<LibraryDashboard />} />
+        <Route path="teacher" element={<TeacherDashboard />} />
+        <Route path="school" element={<SchoolDashboard />} />
+        <Route path="profile" element={<Profile />} />
         <Route path="chapter/:gradeId/:subjectId/:chapterId" element={<ChapterView />} />
         <Route path="book/:bookId" element={<BookReader />} />
         <Route path="textbook/:gradeId/:subjectId" element={<TextbookReader />} />

@@ -3,14 +3,26 @@ import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { academicData } from '../data/academicData';
 import { cn } from '../lib/utils';
-import { Lock, CheckCircle, Circle, Star, Trophy, Clock, ArrowRight, BookOpen, ChevronRight } from 'lucide-react';
+import { Lock, CheckCircle, Circle, Star, Trophy, Clock, ArrowRight, BookOpen, ChevronRight, GraduationCap } from 'lucide-react';
 import Quiz from './Quiz';
 import LanternButton from './ui/LanternButton';
 
 export default function ClassroomDashboard() {
-    const { progress, unlockNextChapter, lastVisited } = useApp();
+    const { progress, unlockNextChapter, lastVisited, user, canSwitchGrades, getUserGrade } = useApp();
     const [activeQuizId, setActiveQuizId] = useState(null);
-    const [selectedGrade, setSelectedGrade] = useState('primary4');
+
+    // Determine if user can switch grades (teachers and admins can, students cannot)
+    const canSwitch = canSwitchGrades();
+    const userGrade = getUserGrade(); // Get student's assigned grade
+
+    // Set initial selected grade based on user role
+    const [selectedGrade, setSelectedGrade] = useState(() => {
+        if (!canSwitch && userGrade) {
+            return userGrade; // Students start with their assigned grade
+        }
+        return 'primary4'; // Default for teachers/admins
+    });
+
     const navigate = useNavigate();
 
     const currentGradeData = academicData[selectedGrade];
@@ -32,6 +44,21 @@ export default function ClassroomDashboard() {
         setActiveQuizId(null);
     };
 
+    const handleGradeChange = (gradeId) => {
+        // Only allow grade changes for teachers and admins
+        if (canSwitch) {
+            setSelectedGrade(gradeId);
+        }
+    };
+
+    // Get grade display name
+    const getGradeDisplayName = () => {
+        if (!canSwitch && userGrade) {
+            return `My ${currentGradeData?.title || 'Class'}`;
+        }
+        return currentGradeData?.title || 'Select Grade';
+    };
+
     return (
         <div className="space-y-8">
             {activeQuizId && (
@@ -44,8 +71,14 @@ export default function ClassroomDashboard() {
 
             {/* Header */}
             <div>
-                <h1 className="text-3xl font-bold text-gray-900 tracking-tight">My Class</h1>
-                <p className="text-gray-500 mt-2">Pick up where you left off or start a new subject.</p>
+                <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
+                    {getGradeDisplayName()}
+                </h1>
+                <p className="text-gray-500 mt-2">
+                    {canSwitch
+                        ? 'Pick up where you left off or start a new subject.'
+                        : 'Continue your learning journey!'}
+                </p>
             </div>
 
             {/* Recent Activity Card */}
@@ -63,23 +96,36 @@ export default function ClassroomDashboard() {
                 <ChevronRight className="w-5 h-5 text-gray-400" />
             </div>
 
-            {/* Grade Selector */}
-            <div className="flex items-center space-x-2 border-b border-gray-200 pb-4 overflow-x-auto scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
-                {Object.values(academicData).map((grade) => (
-                    <button
-                        key={grade.id}
-                        onClick={() => setSelectedGrade(grade.id)}
-                        className={cn(
-                            "px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap flex-shrink-0",
-                            selectedGrade === grade.id
-                                ? "bg-gray-900 text-white"
-                                : "text-gray-500 hover:bg-gray-100 hover:text-gray-900"
-                        )}
-                    >
-                        {grade.title}
-                    </button>
-                ))}
-            </div>
+            {/* Grade Selector - Only shown for teachers and school admins */}
+            {canSwitch && (
+                <div className="flex items-center space-x-2 border-b border-gray-200 pb-4 overflow-x-auto scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
+                    {Object.values(academicData).map((grade) => (
+                        <button
+                            key={grade.id}
+                            onClick={() => handleGradeChange(grade.id)}
+                            className={cn(
+                                "px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap flex-shrink-0",
+                                selectedGrade === grade.id
+                                    ? "bg-gray-900 text-white"
+                                    : "text-gray-500 hover:bg-gray-100 hover:text-gray-900"
+                            )}
+                        >
+                            {grade.title}
+                        </button>
+                    ))}
+                </div>
+            )}
+
+            {/* Student-only: Grade Badge */}
+            {!canSwitch && userGrade && (
+                <div className="flex items-center gap-2">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-lantern-red/10 text-lantern-red border border-lantern-red/20">
+                        <GraduationCap className="w-4 h-4" />
+                        <span className="text-sm font-bold">{currentGradeData?.title}</span>
+                    </div>
+                    <p className="text-xs text-gray-400">You're enrolled in {currentGradeData?.title}</p>
+                </div>
+            )}
 
             {/* Subjects Grid */}
             {currentGradeData ? (
@@ -109,7 +155,7 @@ function SubjectCard({ gradeId, subjectKey, data, progress, onStartQuiz }) {
 
     return (
         <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+            <div className="p-6 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gray-50/50">
                 <div className="flex items-center gap-4">
                     <img src={data.cover} alt={data.title} className="w-12 h-16 object-cover rounded shadow-sm" />
                     <div>
@@ -121,7 +167,8 @@ function SubjectCard({ gradeId, subjectKey, data, progress, onStartQuiz }) {
                     <LanternButton
                         size="sm"
                         variant="ghost"
-                        onClick={() => navigate(`/textbook/${gradeId}/${subjectKey}`)}
+                        onClick={() => navigate(`/dashboard/textbook/${gradeId}/${subjectKey}`)}
+                        className="w-full sm:w-auto justify-center"
                     >
                         Read Textbook
                     </LanternButton>
@@ -141,7 +188,7 @@ function SubjectCard({ gradeId, subjectKey, data, progress, onStartQuiz }) {
                                 "p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors",
                                 isUnlocked ? "hover:bg-gray-50 cursor-pointer" : "opacity-60 bg-gray-50/50"
                             )}
-                            onClick={() => isUnlocked && navigate(`/chapter/${gradeId}/${subjectKey}/${chapter.id}`)}
+                            onClick={() => isUnlocked && navigate(`/dashboard/chapter/${gradeId}/${subjectKey}/${chapter.id}`)}
                         >
                             <div className="flex items-start sm:items-center gap-4">
                                 <div className={cn(
@@ -169,7 +216,7 @@ function SubjectCard({ gradeId, subjectKey, data, progress, onStartQuiz }) {
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     if (quiz.pdfPage) {
-                                                        navigate(`/workbook/${gradeId}/${subjectKey}/${chapter.id}`);
+                                                        navigate(`/dashboard/workbook/${gradeId}/${subjectKey}/${chapter.id}`);
                                                     } else {
                                                         onStartQuiz(quiz.id);
                                                     }
