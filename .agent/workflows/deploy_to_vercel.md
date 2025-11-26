@@ -8,29 +8,38 @@ Follow these steps to deploy your application to Vercel.
 
 ## 1. Push to GitHub
 
-If you haven't already, you need to push your code to a GitHub repository.
+I have already initialized the local repository and committed your code.
+**You need to run the following command in your terminal to push the code:**
 
-1.  **Create a new repository** on GitHub (https://github.com/new). Name it `lantern-webapp` (or whatever you prefer). Do **not** initialize it with a README, .gitignore, or license.
-2.  **Push your code**:
-    Run the following commands in your terminal (copy and paste them):
+```bash
+git remote set-url origin https://onilude-david@github.com/onilude-david/lanternweb.git
+git branch -M main
+git push -u origin main
+```
 
-    ```bash
-    # Link your local repo to GitHub (replace YOUR_USERNAME with your actual GitHub username)
-    git remote add origin https://github.com/YOUR_USERNAME/lantern-webapp.git
+> [!NOTE]
+> If it asks for a username and password, use your GitHub username and a **Personal Access Token** (not your password).
 
-    # Rename the branch to main
-    git branch -M main
+## Troubleshooting: Permission Denied (403)
 
-    # Push your code
-    git push -u origin main
-    ```
+If you see an error like `Permission to ... denied to [OTHER_USER]`, it means your computer is remembering an old GitHub account.
+
+**To fix this:**
+1.  **Update the remote URL** (as shown above) to include your username:
+    `git remote set-url origin https://onilude-david@github.com/onilude-david/lanternweb.git`
+2.  **Try pushing again**. It should ask for your password/token.
+3.  **If that fails**, open **Windows Credential Manager**:
+    *   Search for "Credential Manager" in the Start menu.
+    *   Click "Windows Credentials".
+    *   Find `git:https://github.com` and remove it.
+    *   Try pushing again.
 
 ## 2. Deploy on Vercel
 
 1.  Go to [Vercel Dashboard](https://vercel.com/dashboard).
 2.  Click **"Add New..."** -> **"Project"**.
 3.  Select **"Continue with GitHub"**.
-4.  Find your `lantern-webapp` repository in the list and click **"Import"**.
+4.  Find your `lanternweb` repository in the list and click **"Import"**.
 5.  **Configure Project**:
     *   **Framework Preset**: Vercel should automatically detect **Vite**.
     *   **Root Directory**: `./` (default)
@@ -45,4 +54,4 @@ If you haven't already, you need to push your code to a GitHub repository.
 
 ## 3. Verify
 
-Once deployed, Vercel will give you a URL (e.g., `https://lantern-webapp.vercel.app`). Open it and test your app!
+Once deployed, Vercel will give you a URL (e.g., `https://lanternweb.vercel.app`). Open it and test your app!
