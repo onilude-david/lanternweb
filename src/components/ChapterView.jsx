@@ -19,10 +19,17 @@ export default function ChapterView() {
 
     // Helper to find data (in a real app, this would be an API call or context lookup)
     const grade = academicData[gradeId];
-    const subject = grade?.subjects[subjectId];
-    const chapter = subject?.chapters.find(c => c.id === parseInt(chapterId));
+    const subject = grade?.subjects?.[subjectId];
+    const chapter = subject?.chapters?.find(c => c.id === parseInt(chapterId));
 
     useEffect(() => {
+        if (!grade || !subject || !chapter) {
+             // Redirect if data is invalid
+             // We use a timeout to avoid immediate redirect loops if data is just loading (though here it is static)
+             const timer = setTimeout(() => navigate('/dashboard/classroom'), 100);
+             return () => clearTimeout(timer);
+        }
+
         if (chapter && subject) {
             updateLastVisited(
                 gradeId,
@@ -37,9 +44,9 @@ export default function ChapterView() {
             // In a real app, we'd check if they've already read it to avoid spamming points
             awardPoints(5);
         }
-    }, [chapter, subject, gradeId, subjectId, updateLastVisited, awardPoints]);
+    }, [chapter, subject, grade, gradeId, subjectId, updateLastVisited, awardPoints, navigate]);
 
-    if (!chapter) return <div>Chapter not found</div>;
+    if (!grade || !subject || !chapter) return <div>Chapter not found. Redirecting...</div>;
 
     return (
         <div className="max-w-4xl mx-auto p-6 space-y-8">

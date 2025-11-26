@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { User, Mail, GraduationCap, Building2, Award, Star, Zap, BookOpen, Shield, Calendar } from 'lucide-react';
+import { User, Mail, GraduationCap, Building2, Award, Star, Zap, BookOpen, Shield, Calendar, CheckCircle } from 'lucide-react';
 import { cn } from '../lib/utils';
 import GamifiedProgress from './ui/GamifiedProgress';
 
@@ -256,13 +256,5 @@ function SchoolProfile({ user }) {
                 </div>
             </div>
         </div>
-    );
-}
-
-function CheckCircle({ className }) {
-    return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-        </svg>
     );
 }

@@ -9,10 +9,10 @@ export default function TeacherDashboard() {
     const [students, setStudents] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // Mock data for teacher's classes (in a real app, this would come from Firestore)
-    const teacherClasses = user?.assignedClasses || ['primary4-a', 'primary4-b'];
+    // Get teacher's classes from user profile or default to empty
+    const teacherClasses = user?.assignedClasses || [];
 
-    const [selectedClass, setSelectedClass] = useState(teacherClasses[0]);
+    const [selectedClass, setSelectedClass] = useState(teacherClasses[0] || null);
 
     useEffect(() => {
         const fetchStudents = async () => {
@@ -143,7 +143,9 @@ export default function TeacherDashboard() {
             {/* Students List */}
             <motion.div variants={itemVariants}>
                 <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-lg font-bold text-gray-900">Students in {selectedClass.toUpperCase()}</h2>
+                    <h2 className="text-lg font-bold text-gray-900">
+                        {selectedClass ? `Students in ${selectedClass.toUpperCase()}` : 'All Students'}
+                    </h2>
                     <span className="text-sm text-gray-500">{students.length} students</span>
                 </div>
 

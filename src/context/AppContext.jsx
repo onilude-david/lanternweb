@@ -2,7 +2,6 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { auth, db } from '../lib/firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc, updateDoc, setDoc } from 'firebase/firestore';
-import { mockUsers } from '../data/mockUsers';
 
 const AppContext = createContext();
 
@@ -210,22 +209,6 @@ export function AppProvider({ children }) {
         }
     }, [user?.uid]);
 
-    const switchRole = (newRole, grade = null) => {
-        let updatedUser;
-        if (newRole === 'student') {
-            const targetGrade = grade || 'primary4';
-            const mockKey = `student_${targetGrade.replace('primary', 'p')}`;
-            updatedUser = mockUsers[mockKey] || mockUsers.student_p4;
-        } else if (newRole === 'teacher') {
-            updatedUser = mockUsers.teacher;
-        } else if (newRole === 'school') {
-            updatedUser = mockUsers.school_admin;
-        } else {
-            updatedUser = { ...user, role: newRole };
-        }
-        setUser(updatedUser);
-    };
-
     // PERMISSION HELPER FUNCTIONS
 
     /**
@@ -326,7 +309,6 @@ export function AppProvider({ children }) {
             awardPoints,
             stats,
             achievements,
-            switchRole,
             // Permission helpers
             canAccessGrade,
             getAccessibleGrades,

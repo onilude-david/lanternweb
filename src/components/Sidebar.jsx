@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { LayoutDashboard, BookOpen, GraduationCap, Settings, User, X, Users, Building2, ChevronDown, LogOut } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 export default function Sidebar({ isOpen, onClose }) {
-    const { mode, setMode, user, switchRole, logout } = useApp();
-    const [showRoleSwitcher, setShowRoleSwitcher] = useState(false);
+    const { mode, setMode, user, logout } = useApp();
+    const navigate = useNavigate();
 
     const role = user?.role || 'student';
 
@@ -209,7 +209,7 @@ export default function Sidebar({ isOpen, onClose }) {
                 {/* User Profile */}
                 <div className="p-4 border-t border-gray-100 relative">
                     <div
-                        onClick={() => setShowRoleSwitcher(!showRoleSwitcher)}
+                        onClick={() => navigate('/dashboard/profile')}
                         className="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer"
                     >
                         <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 border border-gray-200">
@@ -230,37 +230,7 @@ export default function Sidebar({ isOpen, onClose }) {
                                 </p>
                             )}
                         </div>
-                        <ChevronDown className={cn("w-4 h-4 text-gray-400 transition-transform", showRoleSwitcher && "rotate-180")} />
                     </div>
-
-                    {/* Role Switcher Dropdown */}
-                    {showRoleSwitcher && (
-                        <div className="absolute bottom-full left-4 right-4 mb-2 bg-white rounded-xl border border-gray-200 shadow-lg py-2 z-50">
-                            <div className="px-3 py-1.5 text-xs font-bold text-gray-400 uppercase tracking-wider">
-                                Switch Role (Dev)
-                            </div>
-                            {Object.entries(roleConfig).map(([key, config]) => {
-                                const Icon = config.icon;
-                                return (
-                                    <button
-                                        key={key}
-                                        onClick={() => {
-                                            switchRole(key);
-                                            setShowRoleSwitcher(false);
-                                        }}
-                                        className={cn(
-                                            "w-full flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-gray-50 transition-colors",
-                                            role === key ? config.color : "text-gray-600"
-                                        )}
-                                    >
-                                        <Icon className="w-4 h-4" />
-                                        {config.label}
-                                        {role === key && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-current" />}
-                                    </button>
-                                );
-                            })}
-                        </div>
-                    )}
                 </div>
             </div>
         </>

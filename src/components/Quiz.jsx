@@ -3,6 +3,23 @@ import { useApp } from '../context/AppContext';
 export default function Quiz({ quizId, onClose, onComplete }) {
     const { awardPoints } = useApp();
     const quiz = quizData[quizId];
+
+    if (!quiz) {
+        return (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-8 text-center">
+                    <h2 className="text-xl font-bold text-red-600 mb-2">Quiz Not Found</h2>
+                    <p className="text-gray-500 mb-6">The requested quiz could not be loaded.</p>
+                    <button
+                        onClick={onClose}
+                        className="w-full py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-colors"
+                    >
+                        Close
+                    </button>
+                </div>
+            </div>
+        );
+    }
     // ... existing state ...
 
     // ... existing handlers ...

@@ -26,7 +26,8 @@ export default function ClassroomDashboard() {
     const navigate = useNavigate();
 
     const currentGradeData = academicData[selectedGrade];
-    const recentActivity = lastVisited || academicData.extraData.recentActivity;
+    // Only show recent activity if it exists in user history
+    const recentActivity = lastVisited;
 
     const handleQuizComplete = (score) => {
         let subjectKey = null;
@@ -82,19 +83,21 @@ export default function ClassroomDashboard() {
             </div>
 
             {/* Recent Activity Card */}
-            <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate(recentActivity.link)}>
-                <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-lantern-red/10 rounded-xl flex items-center justify-center text-lantern-red">
-                        <Clock className="w-6 h-6" />
+            {recentActivity && (
+                <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate(recentActivity.link)}>
+                    <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-lantern-red/10 rounded-xl flex items-center justify-center text-lantern-red">
+                            <Clock className="w-6 h-6" />
+                        </div>
+                        <div>
+                            <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Jump Back In</div>
+                            <h3 className="font-bold text-gray-900">{recentActivity.title}</h3>
+                            <p className="text-sm text-gray-500">{recentActivity.subtitle || recentActivity.chapter}</p>
+                        </div>
                     </div>
-                    <div>
-                        <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Jump Back In</div>
-                        <h3 className="font-bold text-gray-900">{recentActivity.title}</h3>
-                        <p className="text-sm text-gray-500">{recentActivity.subtitle || recentActivity.chapter}</p>
-                    </div>
+                    <ChevronRight className="w-5 h-5 text-gray-400" />
                 </div>
-                <ChevronRight className="w-5 h-5 text-gray-400" />
-            </div>
+            )}
 
             {/* Grade Selector - Only shown for teachers and school admins */}
             {canSwitch && (
@@ -176,7 +179,7 @@ function SubjectCard({ gradeId, subjectKey, data, progress, onStartQuiz }) {
             </div>
 
             <div className="divide-y divide-gray-100">
-                {data.chapters.map((chapter, index) => {
+                {data.chapters?.map((chapter, index) => {
                     const isUnlocked = chapter.id <= progress;
                     const isCompleted = chapter.id < progress;
                     const isCurrent = chapter.id === progress;

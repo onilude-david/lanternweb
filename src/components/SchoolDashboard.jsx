@@ -82,10 +82,22 @@ export default function SchoolDashboard() {
                     .slice(0, 3);
                 setTopPerformers(performers);
 
+                // Calculate Avg Completion
+                let totalProgressPoints = 0;
+                students.forEach(s => {
+                    if (s.progress) {
+                        totalProgressPoints += (s.progress.quantitative || 0) + (s.progress.verbal || 0);
+                    }
+                });
+                // Estimate percentage assuming ~20 chapters total across subjects
+                const calculatedAvgCompletion = students.length > 0 
+                    ? Math.min(100, Math.round((totalProgressPoints / (students.length * 20)) * 100)) 
+                    : 0;
+
                 setStats({
                     totalStudents: students.length,
                     totalTeachers: teachers.length,
-                    avgCompletion: 0, // Placeholder
+                    avgCompletion: calculatedAvgCompletion,
                     activeToday: activeCount
                 });
 
