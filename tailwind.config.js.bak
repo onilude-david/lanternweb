@@ -1,0 +1,24 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        lantern: {
+          red: '#E31C23', // Lantern Red
+          yellow: '#FFD700', // Lantern Yellow
+          dark: '#1F2937', // Dark text color
+          light: '#F9FAFB', // Light background color
+        }
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        display: ['Comic Neue', 'cursive'], // For Leisure mode
+      }
+    },
+  },
+  plugins: [],
+}

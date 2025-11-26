@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Fredoka:wght@400;600&family=Inter:wght@400;500;600;700&display=swap');
+
+@theme {
+  --color-lantern-red: #E31C23;
+  --color-lantern-yellow: #FFD700;
+  --color-lantern-dark: #1F2937;
+  --color-lantern-light: #F9FAFB;
+
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Comic Neue', cursive;
+}
+
+@layer base {
+  body {
+    @apply font-sans text-lantern-dark bg-lantern-light;
+  }
+}
